@@ -7,17 +7,34 @@
     body {
       font-family: sans-serif;
       text-align: center;
+      font-size: 18px;
+      padding: 20px;
     }
-    .image-area {
+    input[type="text"], input[type="number"] {
+      font-size: 18px;
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+      margin: 8px 0;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #image-area {
       margin: 20px auto;
-      width: 180px;
+      width: 200px;
       height: 200px;
+      background-color: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
+      border: 2px dashed #ccc;
     }
     #timer {
-      font-size: 20px;
+      font-size: 22px;
       margin: 10px;
     }
     #resolution {
@@ -26,21 +43,27 @@
     }
     #chatBox {
       margin: 20px auto;
-      width: 350px;
+      width: 90%;
+      max-width: 500px;
       text-align: left;
       background-color: #f9f9f9;
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 15px;
       min-height: 100px;
+      font-size: 18px;
     }
     .message { margin: 5px 0; }
     .user { color: blue; }
     .system { color: green; }
     #nameInputs input {
-      margin: 2px;
-      width: 200px;
+      margin: 4px 0;
+      width: 90%;
+      max-width: 400px;
+      font-size: 18px;
+      padding: 8px;
     }
   </style>
+  
 </head>
 <body>
   <h2>AMEX 랜덤 조 편성기</h2>
