@@ -197,15 +197,25 @@
     }
 
     function groupAndDisplay() {
-    const shuffled = [...names].sort(() => Math.random() - 0.5);
-    const chatBox = document.getElementById("chatBox");
-    chatBox.innerHTML = "<h3>조 편성 결과</h3>";
-    for (let i = 0; i < shuffled.length; i += groupSize) {
-        const group = shuffled.slice(i, i + groupSize);
-        const p = document.createElement("p");
-        p.innerHTML = `<b>${Math.floor(i / groupSize) + 1}조:</b> ${group.join(", ")}`;
-        chatBox.appendChild(p);
-    }
+        const shuffled = [...names].sort(() => Math.random() - 0.5);
+        const chatBox = document.getElementById("chatBox");
+        chatBox.innerHTML = "<h3>조 편성 결과</h3>";
+        for (let i = 0; i < shuffled.length; i += groupSize) {
+            const group = shuffled.slice(i, i + groupSize);
+            const p = document.createElement("p");
+            p.innerHTML = `<b>${Math.floor(i / groupSize) + 1}조:</b> ${group.join(", ")}`;
+            chatBox.appendChild(p);
+        }
+        fetch("https://caiseye.github.io/grouping/results.json", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                names: shuffled,
+                groupSize: groupSize,
+                nextTime: Date.now() + interval * 60000
+            })
+        });
+
     }
 
     function updateTimerDisplay() {
