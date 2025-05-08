@@ -2,21 +2,19 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>AMEX 랜덤 조 편성기</title>
+  <title>랜덤 조 편성기</title>
   <style>
     body {
       font-family: sans-serif;
       text-align: center;
     }
-    #image-area {
+    .image-area {
       margin: 20px auto;
-      width: 200px;
+      width: 180px;
       height: 200px;
-      background-color: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 2px dashed #ccc;
     }
     #timer {
       font-size: 20px;
@@ -45,11 +43,10 @@
   </style>
 </head>
 <body>
-  <h2>랜덤 조 편성기</h2>
+  <h2>AMEX 랜덤 조 편성기</h2>
   <div id="resolution"></div>
-
+  <div><img class="image-area" src="./amexMot.png"></div>
   <div id="chatBox"></div>
-
   <div id="inputArea">
     <input type="text" id="input" placeholder="입력하세요" />
     <button onclick="handleInput()">확인</button>
@@ -59,7 +56,6 @@
   <button id="startBtn" onclick="startGrouping()" style="display:none;">조 편성 시작</button>
 
   <div id="timer"></div>
-  <div id="image-area">이미지 영역</div>
 
   <button id="restartBtn" style="display:none;" onclick="location.reload()">🔁 재시작</button>
 
