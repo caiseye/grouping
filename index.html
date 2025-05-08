@@ -1,88 +1,103 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>랜덤 조 편성기</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      font-size: 18px;
-      padding: 20px;
-    }
-    input[type="text"], input[type="number"] {
-      font-size: 18px;
-      padding: 10px;
-      width: 90%;
-      max-width: 400px;
-      margin: 8px 0;
-    }
-    button {
-      font-size: 18px;
-      padding: 10px 20px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-    #image-area {
-      margin: 20px auto;
-      width: 200px;
-      height: 200px;
-      background-color: #f0f0f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 2px dashed #ccc;
-    }
-    #timer {
-      font-size: 22px;
-      margin: 10px;
-    }
-    #resolution {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    #chatBox {
-      margin: 20px auto;
-      width: 90%;
-      max-width: 500px;
-      text-align: left;
-      background-color: #f9f9f9;
-      border: 1px solid #ccc;
-      padding: 15px;
-      min-height: 100px;
-      font-size: 18px;
-    }
-    .message { margin: 5px 0; }
-    .user { color: blue; }
-    .system { color: green; }
-    #nameInputs input {
-      margin: 4px 0;
-      width: 90%;
-      max-width: 400px;
-      font-size: 18px;
-      padding: 8px;
-    }
-  </style>
-  
-</head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- ✅ 모바일 반응형 핵심 -->
+    <title>AMEX 랜덤 조 편성기</title>
+    <style>
+        body {
+        font-family: sans-serif;
+        text-align: center;
+        font-size: 18px;
+        padding: 20px;
+        margin: 0;
+        background-color: #ffffff;
+        }
+        input[type="text"], input[type="number"] {
+        font-size: 18px;
+        padding: 12px;
+        width: 90%;
+        max-width: 400px;
+        margin: 10px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        }
+        button {
+        font-size: 18px;
+        padding: 12px 20px;
+        margin: 10px;
+        cursor: pointer;
+        border-radius: 6px;
+        border: none;
+        background-color: #1976d2;
+        color: white;
+        }
+        button:hover {
+        background-color: #1565c0;
+        }
+        #image-area {
+        margin: 20px auto;
+        width: 200px;
+        height: 200px;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        }
+        #timer {
+        font-size: 22px;
+        margin: 15px 0;
+        }
+        #resolution {
+        margin-top: 10px;
+        font-weight: bold;
+        }
+        #chatBox {
+        margin: 20px auto;
+        width: 90%;
+        max-width: 500px;
+        text-align: left;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 18px;
+        }
+        .message { margin: 6px 0; }
+        .user { color: blue; }
+        .system { color: green; }
+        #nameInputs input {
+        margin: 6px 0;
+        width: 90%;
+        max-width: 400px;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        }
+    </style>
+    </head>
+    
 <body>
-  <h2>AMEX 랜덤 조 편성기</h2>
-  <div id="resolution"></div>
-  <div><img class="image-area" src="./amexMot.png"></div>
-  <div id="chatBox"></div>
-  <div id="inputArea">
+<h2>AMEX 랜덤 조 편성기</h2>
+<div id="resolution"></div>
+<div><img class="image-area" src="./amexMot.png"></div>
+<div id="chatBox"></div>
+<div id="inputArea">
     <input type="text" id="input" placeholder="입력하세요" />
     <button onclick="handleInput()">확인</button>
-  </div>
+</div>
 
-  <div id="nameInputs"></div>
-  <button id="startBtn" onclick="startGrouping()" style="display:none;">조 편성 시작</button>
+<div id="nameInputs"></div>
+<button id="startBtn" onclick="startGrouping()" style="display:none;">조 편성 시작</button>
 
-  <div id="timer"></div>
+<div id="timer"></div>
 
-  <button id="restartBtn" style="display:none;" onclick="location.reload()">🔁 재시작</button>
+<button id="restartBtn" style="display:none;" onclick="location.reload()">🔁 재시작</button>
 
-  <script>
+<script>
     let step = 1;
     let total = 0, groupSize = 0, interval = 0;
     let names = [];
@@ -90,119 +105,119 @@
     let timer, countdownTimer, remainingSeconds = 0;
 
     function clearChatBoxAndMessage(msg) {
-      const chatBox = document.getElementById("chatBox");
-      chatBox.innerHTML = "";
-      appendMessage(msg, "system");
+    const chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML = "";
+    appendMessage(msg, "system");
     }
 
     function appendMessage(text, type = "system") {
-      const chatBox = document.getElementById("chatBox");
-      const div = document.createElement("div");
-      div.className = `message ${type}`;
-      div.textContent = text;
-      chatBox.appendChild(div);
-      chatBox.scrollTop = chatBox.scrollHeight;
+    const chatBox = document.getElementById("chatBox");
+    const div = document.createElement("div");
+    div.className = `message ${type}`;
+    div.textContent = text;
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     clearChatBoxAndMessage("참석 인원을 입력해주세요.");
 
     function handleInput() {
-      const val = document.getElementById("input").value.trim();
-      if (!val) return;
-      document.getElementById("input").value = "";
-      appendMessage(val, "user");
+    const val = document.getElementById("input").value.trim();
+    if (!val) return;
+    document.getElementById("input").value = "";
+    appendMessage(val, "user");
 
-      if (step === 1) {
+    if (step === 1) {
         total = parseInt(val);
         if (isNaN(total) || total <= 0) {
-          appendMessage("숫자를 정확히 입력해주세요.");
-          return;
+        appendMessage("숫자를 정확히 입력해주세요.");
+        return;
         }
         step++;
         clearChatBoxAndMessage(`총 ${total}명의 참석자를 받습니다.\n조 당 인원을 입력해주세요.`);
-      } else if (step === 2) {
+    } else if (step === 2) {
         groupSize = parseInt(val);
         if (isNaN(groupSize) || groupSize <= 0) {
-          appendMessage("숫자를 정확히 입력해주세요.");
-          return;
+        appendMessage("숫자를 정확히 입력해주세요.");
+        return;
         }
         step++;
         clearChatBoxAndMessage(`조 당 ${groupSize}명으로 설정되었습니다.\n조 재편성 주기 (분)을 입력해주세요.`);
-      } else if (step === 3) {
+    } else if (step === 3) {
         interval = parseInt(val);
         if (isNaN(interval) || interval <= 0) {
-          appendMessage("분 단위 숫자를 입력해주세요.");
-          return;
+        appendMessage("분 단위 숫자를 입력해주세요.");
+        return;
         }
         step++;
         clearChatBoxAndMessage("참석자 이름을 모두 입력해주세요.");
         createNameInputs();
         document.getElementById("inputArea").style.display = "none";
-      }
+    }
     }
 
     function createNameInputs() {
-      const container = document.getElementById("nameInputs");
-      container.innerHTML = "<h3>참석자 이름 입력</h3>";
-      for (let i = 0; i < total; i++) {
+    const container = document.getElementById("nameInputs");
+    container.innerHTML = "<h3>참석자 이름 입력</h3>";
+    for (let i = 0; i < total; i++) {
         container.innerHTML += `<input type="text" id="name${i}" placeholder="이름 ${i + 1}" /><br />`;
-      }
-      document.getElementById("startBtn").style.display = "inline";
+    }
+    document.getElementById("startBtn").style.display = "inline";
     }
 
     function startGrouping() {
-      names = [];
-      for (let i = 0; i < total; i++) {
+    names = [];
+    for (let i = 0; i < total; i++) {
         const name = document.getElementById(`name${i}`).value.trim();
         if (!name) {
-          alert("모든 이름을 입력해주세요.");
-          return;
+        alert("모든 이름을 입력해주세요.");
+        return;
         }
         names.push(name);
-      }
+    }
 
-      // 이름 입력창 숨기기
-      document.getElementById("nameInputs").style.display = "none";
-      document.getElementById("startBtn").style.display = "none";
+    // 이름 입력창 숨기기
+    document.getElementById("nameInputs").style.display = "none";
+    document.getElementById("startBtn").style.display = "none";
 
-      // 조편성 시작
-      groupAndDisplay();
+    // 조편성 시작
+    groupAndDisplay();
 
-      remainingSeconds = interval * 60;
-      updateTimerDisplay();
+    remainingSeconds = interval * 60;
+    updateTimerDisplay();
 
-      timer = setInterval(groupAndDisplay, interval * 60000);
-      countdownTimer = setInterval(() => {
+    timer = setInterval(groupAndDisplay, interval * 60000);
+    countdownTimer = setInterval(() => {
         remainingSeconds--;
         if (remainingSeconds <= 0) remainingSeconds = interval * 60;
         updateTimerDisplay();
-      }, 1000);
+    }, 1000);
 
-      document.getElementById("restartBtn").style.display = "inline";
+    document.getElementById("restartBtn").style.display = "inline";
     }
 
     function groupAndDisplay() {
-      const shuffled = [...names].sort(() => Math.random() - 0.5);
-      const chatBox = document.getElementById("chatBox");
-      chatBox.innerHTML = "<h3>조 편성 결과</h3>";
-      for (let i = 0; i < shuffled.length; i += groupSize) {
+    const shuffled = [...names].sort(() => Math.random() - 0.5);
+    const chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML = "<h3>조 편성 결과</h3>";
+    for (let i = 0; i < shuffled.length; i += groupSize) {
         const group = shuffled.slice(i, i + groupSize);
         const p = document.createElement("p");
         p.innerHTML = `<b>${Math.floor(i / groupSize) + 1}조:</b> ${group.join(", ")}`;
         chatBox.appendChild(p);
-      }
+    }
     }
 
     function updateTimerDisplay() {
-      const m = Math.floor(remainingSeconds / 60);
-      const s = remainingSeconds % 60;
-      document.getElementById("timer").textContent =
+    const m = Math.floor(remainingSeconds / 60);
+    const s = remainingSeconds % 60;
+    document.getElementById("timer").textContent =
         `다음 조 편성까지 남은 시간: ${m}분 ${s}초`;
     }
 
     document.getElementById("input").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") handleInput();
+    if (e.key === "Enter") handleInput();
     });
-  </script>
+</script>
 </body>
 </html>
