@@ -1,0 +1,67 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.control-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.control-panel label {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.control-panel input {
+  width: 80px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.control-panel button {
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #eee;
+  transition: background-color 0.3s;
+}
+
+.control-panel button:hover {
+  background-color: #ccc;
+}
+
+.control-panel button.danger {
+  background-color: red;
+  color: white;
+}
+
+.group-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 600px) {
+  .control-panel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .control-panel input {
+    width: 100%;
+  }
+
+  .control-panel button {
+    width: 100%;
+  }
+}
