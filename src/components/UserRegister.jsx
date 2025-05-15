@@ -27,7 +27,7 @@ export default function UserRegister() {
       <div style={styles.card}>
         {/* 이미지 영역 */}
         <div style={styles.imageBox}>
-          <img src="/grouping/amexMot.png" />
+          <img src="/grouping/amexMot.png" style={styles.image} />
           {/* <div style={styles.imagePlaceholder}>이미지 영역</div> */}
         </div>
 
