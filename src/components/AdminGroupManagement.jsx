@@ -4,7 +4,6 @@ import {
   ref,
   onValue,
   update,
-  push,
   remove,
   set,
   get,
@@ -18,7 +17,6 @@ export default function AdminGroupManagement() {
   const [status, setStatus] = useState("pending");
   const [expiresAt, setExpiresAt] = useState(null);
   const [remainingTime, setRemainingTime] = useState(null);
-  const [displayRefreshTime, setDisplayRefreshTime] = useState(null);
   const [expectedEndTime, setExpectedEndTime] = useState(null);
 
   useEffect(() => {

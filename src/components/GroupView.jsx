@@ -94,7 +94,7 @@ export default function GroupView() {
       ) : (
         <div className="card waiting">
           <h3>⏳ 조 배정 대기 중</h3>
-          <p>어드민이 조를 배정하면 자동으로 결과가 표시됩니다.</p>
+          <p>조 배정이 끝나면 자동으로 결과가 표시됩니다.</p>
         </div>
       )}
     </div>
