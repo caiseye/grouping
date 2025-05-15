@@ -1,8 +1,8 @@
-import React from 'react'; 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-import { ref, push } from "firebase/database";
+import { ref, push, set } from "firebase/database";
+
 
 export default function UserRegister() {
   const [name, setName] = useState("");
@@ -12,23 +12,24 @@ export default function UserRegister() {
     e.preventDefault();
     if (!name.trim()) return;
 
-    await push(ref(db, "id"), {
+    const newRef = push(ref(db, "id"));
+
+    await set(newRef, {
       name,
       group: "",
       nexttime: ""
     });
 
     localStorage.setItem("username", name);
+    localStorage.setItem("userid", newRef.key);
     navigate("/group");
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {/* 이미지 영역 */}
         <div style={styles.imageBox}>
           <img src="/grouping/amexMot.png" style={styles.image} />
-          {/* <div style={styles.imagePlaceholder}>이미지 영역</div> */}
         </div>
 
         <h2 style={styles.title}>이름을 입력하세요</h2>
@@ -69,15 +70,15 @@ const styles = {
     width: "100%",
     height: "180px",
     marginBottom: "20px",
-    // backgroundColor: "#eee",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: "8px"
   },
-  imagePlaceholder: {
-    color: "#999",
-    fontSize: "0.9rem"
+  image: {
+    maxWidth: "100%",
+    maxHeight: "100%",
+    objectFit: "contain"
   },
   title: {
     marginBottom: "20px",
@@ -104,10 +105,5 @@ const styles = {
     border: "none",
     borderRadius: "6px",
     cursor: "pointer"
-  },
-  image: {
-  maxWidth: "100%",
-  maxHeight: "100%",
-  objectFit: "contain"
-}
+  }
 };

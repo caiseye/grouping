@@ -8,9 +8,10 @@ export default function GroupView() {
   const [grouped, setGrouped] = useState({});
   const [expiresAt, setExpiresAt] = useState(null);
   const [remainingTime, setRemainingTime] = useState(null);
-  const username = localStorage.getItem("username");
 
-  const me = Object.values(userMap).find((u) => u.name === username);
+  const username = localStorage.getItem("username");
+  const userId = localStorage.getItem("userid");
+  const me = userId && userMap[userId] ? userMap[userId] : null;
 
   useEffect(() => {
     const idRef = ref(db, "id");
@@ -41,7 +42,7 @@ export default function GroupView() {
 
   useEffect(() => {
     const groupedData = {};
-    Object.values(userMap).forEach((user) => {
+    Object.entries(userMap).forEach(([_, user]) => {
       if (user.group) {
         if (!groupedData[user.group]) groupedData[user.group] = [];
         groupedData[user.group].push(user.name);
@@ -59,10 +60,10 @@ export default function GroupView() {
   return (
     <div className="container">
       <h2 className="title">👋 {username} Amex 원우님 환영합니다</h2>
-        <p className="timer">
-            ⏳ Remain Time:{" "}
-            <span>{remainingTime !== null ? formatTime(remainingTime) : "--:--"}</span>
-        </p>
+      <p className="timer">
+        ⏳ Remain Time: <span>{remainingTime !== null ? formatTime(remainingTime) : "--:--"}</span>
+      </p>
+
       {me && me.group ? (
         <>
           <div className="card my-group">
@@ -78,7 +79,7 @@ export default function GroupView() {
             <h3>📋 다른 조 목록</h3>
             {Object.entries(grouped)
               .filter(([group]) => group !== me.group)
-              .sort((a, b) => a[0].localeCompare(b[0])) // 🔹 오름차순 정렬
+              .sort((a, b) => a[0].localeCompare(b[0]))
               .map(([group, members]) => (
                 <div key={group} className="card">
                   <h4>조 {group}</h4>
