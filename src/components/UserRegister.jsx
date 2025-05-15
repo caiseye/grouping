@@ -104,5 +104,10 @@ const styles = {
     border: "none",
     borderRadius: "6px",
     cursor: "pointer"
-  }
+  },
+  image: {
+  maxWidth: "100%",
+  maxHeight: "100%",
+  objectFit: "contain"
+}
 };
