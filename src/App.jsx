@@ -4,11 +4,9 @@ import GroupView from "./components/GroupView";
 import AdminGroupManagement from "./components/AdminGroupManagement";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
-
-
 export default function App() {
   return (
-    <Router>
+    <Router basename="/grouping">
       <Routes>
         <Route path="/" element={<UserRegister />} />
         <Route path="/group" element={<GroupView />} />
