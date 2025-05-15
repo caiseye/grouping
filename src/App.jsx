@@ -6,7 +6,7 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
 export default function App() {
   return (
-    <Router basename="/grouping">
+    <Router>
       <Routes>
         <Route path="/" element={<UserRegister />} />
         <Route path="/group" element={<GroupView />} />
