@@ -10,12 +10,13 @@ export default function GroupView() {
   const [remainingTime, setRemainingTime] = useState(null);
 
   const username = localStorage.getItem("username");
+  const birth = localStorage.getItem("birth");
   const userId = localStorage.getItem("userid");
   const me = userId && userMap[userId] ? userMap[userId] : null;
 
   useEffect(() => {
-    const idRef = ref(db, "id");
-    onValue(idRef, (snapshot) => {
+    const usersRef = ref(db, "users");
+    onValue(usersRef, (snapshot) => {
       const data = snapshot.val() || {};
       setUserMap(data);
     });
@@ -59,33 +60,33 @@ export default function GroupView() {
 
   return (
     <div className="container">
-      <h2 className="title">👋 {username} Amax 원우님 환영합니다</h2>
-      <p className="timer">
-        ⏳ Remain Time: <span>{remainingTime !== null ? formatTime(remainingTime) : "--:--"}</span>
-      </p>
+      <h2 className="title">👋 {username}({birth}) Amax 원우님 환영합니다</h2>
 
       {me && me.group ? (
         <>
+          <p className="timer">
+            Remain Time: <span>{remainingTime !== null ? formatTime(remainingTime) : "--:--"}</span>
+          </p>
           <div className="card my-group">
-            <h3>🧩 당신의 조: {me.group}</h3>
+            <h3>당신의 그룹: {me.group}</h3>
             <ul>
               {grouped[me.group]?.map((name, idx) => (
-                <li key={idx}>{name} 원우님</li>
+                <li key={idx}>{name}({birth}) 원우님</li>
               ))}
             </ul>
           </div>
 
           <div className="section">
-            <h3>📋 다른 조 목록</h3>
+            <h3>다른 조 목록</h3>
             {Object.entries(grouped)
               .filter(([group]) => group !== me.group)
               .sort((a, b) => a[0].localeCompare(b[0]))
               .map(([group, members]) => (
                 <div key={group} className="card">
-                  <h4>조 {group}</h4>
+                  <h4>{group}</h4>
                   <ul>
                     {members.map((name, idx) => (
-                      <li key={idx}>{name} 원우님</li>
+                      <li key={idx}>{name}({birth}) 원우님</li>
                     ))}
                   </ul>
                 </div>
@@ -94,7 +95,7 @@ export default function GroupView() {
         </>
       ) : (
         <div className="card waiting">
-          <h3>⏳ 조 배정 대기 중</h3>
+          <h3>조 배정 대기 중</h3>
           <p>조 배정이 끝나면 자동으로 결과가 표시됩니다.</p>
         </div>
       )}

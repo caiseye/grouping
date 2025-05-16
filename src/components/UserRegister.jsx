@@ -5,24 +5,36 @@ import { ref, push, set } from "firebase/database";
 
 
 export default function UserRegister() {
+  const [step, setStep] = useState(1);
   const [name, setName] = useState("");
+  const [birth, setBirth] = useState("");
   const navigate = useNavigate();
+
+  const handleNext = (e) => {
+    e.preventDefault();
+    if (step === 1 && name.trim()) {
+      setStep(2);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name.trim()) return;
-
-    const newRef = push(ref(db, "id"));
+    if (birth.trim().length === 2) {
+      console.log({ name, birth });
+    }
+     const newRef = push(ref(db, "users"));
 
     await set(newRef, {
-      name,
-      group: "",
-      nexttime: ""
+      name,         // 이름
+      birth,        // 생년
+      group: "",    // 그룹
     });
 
     localStorage.setItem("username", name);
+    localStorage.setItem("birth", birth);
     localStorage.setItem("userid", newRef.key);
     navigate("/group");
+
   };
 
   return (
@@ -32,16 +44,34 @@ export default function UserRegister() {
           <img src="/grouping/amexMot.png" style={styles.image} />
         </div>
 
-        <h2 style={styles.title}>이름을 입력하세요</h2>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="이름"
-            style={styles.input}
-          />
-          <button type="submit" style={styles.button}>입장</button>
+        <h2 style={styles.title}>
+          {step === 1 ? "이름을 입력하세요" : "생년(2자리)를 입력하세요"}
+        </h2>
+        <form onSubmit={step === 1 ? handleNext : handleSubmit} style={styles.form}>
+          {step === 1 ? (
+            <>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="이름"
+                style={styles.input}
+              />
+              <button type="submit" style={styles.button}>다음</button>
+            </>
+          ) : (
+            <>
+              <input
+                type="text"
+                value={birth}
+                onChange={(e) => setBirth(e.target.value)}
+                placeholder="예: 72"
+                maxLength={2}
+                style={styles.input}
+              />
+              <button type="submit" style={styles.button}>입장</button>
+            </>
+          )}
         </form>
       </div>
     </div>
