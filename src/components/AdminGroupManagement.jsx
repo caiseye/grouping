@@ -40,7 +40,7 @@ export default function AdminGroupManagement() {
 
   useEffect(() => {
     if (!expiresAt) return;
-    const interval = setInterval(async () =>  {
+    const interval = setInterval(() =>  {
       const now = Date.now();
       const diffSec = Math.max(0, Math.floor((expiresAt - now) / 1000));
       setRemainingTime(diffSec);
