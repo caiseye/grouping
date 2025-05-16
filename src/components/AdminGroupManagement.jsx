@@ -101,35 +101,57 @@ export default function AdminGroupManagement() {
         const shuffled = [...allUsers].sort(() => Math.random() - 0.5);
         const total = shuffled.length;
 
-        let maxGroups = groupCount;
-        while (maxGroups > 0) {
-            const baseSize = Math.floor(total / maxGroups);
-            const extra = total % maxGroups;
+        if (mode === "firstcome") {
+        const result = {};
+        let groupIndex = 0;
 
-            // 1명 그룹 발생 여부 체크4
-            if (baseSize === 1 && extra === 0) {
+        for (const user of shuffled) {
+            const groupName = `Group ${String.fromCharCode(65 + groupIndex)}`;
+            if (!result[groupName]) result[groupName] = [];
+            result[groupName].push(user);
+
+            if (result[groupName].length >= groupSize) {
+            groupIndex++;
+            if (groupIndex >= groupCount) groupIndex = 0;
+            }
+        }
+
+        setGeneratedGroups(result);
+        setStatus("ready");
+        return;
+        }
+
+        // batch 모드
+        let maxGroups = Math.ceil(total / groupSize);
+        while (maxGroups > 0) {
+        const baseSize = Math.floor(total / maxGroups);
+        const extra = total % maxGroups;
+
+        if (baseSize === 1 && extra === 0) {
             maxGroups--;
             continue;
-            }
+        }
 
-            const result = {};
-            let index = 0;
-            let remain = extra;
+        const result = {};
+        let index = 0;
+        let remain = extra;
 
-            for (let i = 0; i < maxGroups; i++) {
+        for (let i = 0; i < maxGroups; i++) {
             const size = baseSize + (remain > 0 ? 1 : 0);
             const groupName = `Group ${String.fromCharCode(65 + i)}`;
             result[groupName] = shuffled.slice(index, index + size);
             index += size;
             if (remain > 0) remain--;
-            }
-
-            setGeneratedGroups(result);
-            setStatus("ready");
-            return;
         }
-        alert("그룹을 생성할 수 없습니다. 그룹 수를 줄여주세요.");
+
+        setGeneratedGroups(result);
+        setStatus("ready");
+        return;
+        }
+
+        alert("그룹을 생성할 수 없습니다. 설정을 확인해주세요.");
     };
+
 
 
     const publish = async () => {
