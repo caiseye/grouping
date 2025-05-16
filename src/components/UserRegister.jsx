@@ -7,7 +7,7 @@ import { ref, push, set } from "firebase/database";
 export default function UserRegister() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
-  const [birth, setBirth] = useState("");
+  const [birthyear, setBirthyear] = useState("");
   const navigate = useNavigate();
 
   const handleNext = (e) => {
@@ -19,19 +19,18 @@ export default function UserRegister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (birth.trim().length === 2) {
-      console.log({ name, birth });
+    if (birthyear.trim().length === 2) {
     }
      const newRef = push(ref(db, "users"));
 
     await set(newRef, {
       name,         // 이름
-      birth,        // 생년
+      birth:birthyear,    // 생년
       group: "",    // 그룹
     });
 
     localStorage.setItem("username", name);
-    localStorage.setItem("birth", birth);
+    localStorage.setItem("birthyear", birthyear);
     localStorage.setItem("userid", newRef.key);
     navigate("/group");
 
@@ -63,8 +62,8 @@ export default function UserRegister() {
             <>
               <input
                 type="text"
-                value={birth}
-                onChange={(e) => setBirth(e.target.value)}
+                value={birthyear}
+                onChange={(e) => setBirthyear(e.target.value)}
                 placeholder="예: 72"
                 maxLength={2}
                 style={styles.input}

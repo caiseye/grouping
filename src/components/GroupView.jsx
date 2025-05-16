@@ -10,7 +10,7 @@ export default function GroupView() {
   const [remainingTime, setRemainingTime] = useState(null);
 
   const username = localStorage.getItem("username");
-  const birth = localStorage.getItem("birth");
+  const birthyear = localStorage.getItem("birthyear");
   const userId = localStorage.getItem("userid");
   const me = userId && userMap[userId] ? userMap[userId] : null;
 
@@ -46,7 +46,7 @@ export default function GroupView() {
     Object.entries(userMap).forEach(([_, user]) => {
       if (user.group) {
         if (!groupedData[user.group]) groupedData[user.group] = [];
-        groupedData[user.group].push(user.name);
+        groupedData[user.group].push(user);
       }
     });
     setGrouped(groupedData);
@@ -60,7 +60,7 @@ export default function GroupView() {
 
   return (
     <div className="container">
-      <h2 className="title">👋 {username}({birth}) Amax 원우님 환영합니다</h2>
+      <h2 className="title">👋 {username}({birthyear}) Amax 원우님 환영합니다</h2>
 
       {me && me.group ? (
         <>
@@ -70,8 +70,8 @@ export default function GroupView() {
           <div className="card my-group">
             <h3>당신의 그룹: {me.group}</h3>
             <ul>
-              {grouped[me.group]?.map((name, idx) => (
-                <li key={idx}>{name}({birth}) 원우님</li>
+              {grouped[me.group]?.map((user, idx) => (
+                <li key={idx}>{user.name}({user.birth}) 원우님</li>
               ))}
             </ul>
           </div>
@@ -85,8 +85,8 @@ export default function GroupView() {
                 <div key={group} className="card">
                   <h4>{group}</h4>
                   <ul>
-                    {members.map((name, idx) => (
-                      <li key={idx}>{name}({birth}) 원우님</li>
+                    {members.map((user, idx) => (
+                      <li key={idx}>{user.name}({user.birth}) 원우님</li>
                     ))}
                   </ul>
                 </div>

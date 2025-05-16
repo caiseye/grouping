@@ -21,7 +21,7 @@ export default function AdminGroupManagement() {
   const [remainingTime, setRemainingTime] = useState(null);     // 리프레쉬까지 남은 시간
   const [expectedEndTime, setExpectedEndTime] = useState(null); // 예상종료시각
 
-  const [mode, setMode] = useState("firstcome");                    // 일괄: batch, 선착순: firstcome
+  const [mode, setMode] = useState("firstcome");                // 일괄: batch, 선착순: firstcome
   const [watchRealtime, setWatchRealtime] = useState(false);    // 실시간
 
   useEffect(() => {
@@ -40,13 +40,15 @@ export default function AdminGroupManagement() {
 
   useEffect(() => {
     if (!expiresAt) return;
-    const interval = setInterval(() => {
+    const interval = setInterval(async () =>  {
       const now = Date.now();
       const diffSec = Math.max(0, Math.floor((expiresAt - now) / 1000));
       setRemainingTime(diffSec);
       if (diffSec <= 0) {
         regenerateGroups();
+        handleExpectedRefresh();
         clearInterval(interval);
+        setTimeout(()=>{publish();}, 500);
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -88,7 +90,7 @@ export default function AdminGroupManagement() {
     }
   }, [watchRealtime, mode, groupCount, groupSize]);
 
-  const handleExpectedRefresh = async () => {
+  const handleExpectedRefresh = () => {
     const now = Date.now();
     const expected = now + refreshMinutes * 60 * 1000;
     setExpectedEndTime(expected);
