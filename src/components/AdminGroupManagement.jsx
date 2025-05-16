@@ -295,7 +295,8 @@ export default function AdminGroupManagement() {
               <h4>{group}</h4>
               <ul>
                 {members.map((u) => (
-                  <li key={u.id}>{u.name}</li>
+                  <li key={u.id}>{u.name}({u.birth})
+                  </li>
                 ))}
               </ul>
             </div>
@@ -322,7 +323,7 @@ export default function AdminGroupManagement() {
                 <ul>
                   {members.map((u) => (
                     <li key={u.id}>
-                      {u.name}
+                      {u.name}({u.birth})
                       <button onClick={() => deleteUser(u.id)} style={{ marginLeft: 10 }}>삭제</button>
                     </li>
                   ))}
