@@ -188,7 +188,7 @@ export default function AdminGroupManagement() {
 
       const unassigned = Object.entries(userMap)
         .filter(([_, u]) => !u.group)
-        .map(([id, u]) => ({ id, name: u.name }));
+        .map(([id, u]) => ({ id, name: u.name, birth: u.birth }));
 
       unassigned.forEach((user) => {
         const minCount = Math.min(...groupCounts.map((g) => g.count));
@@ -226,7 +226,7 @@ export default function AdminGroupManagement() {
 
   const unassigned = Object.entries(userMap)
     .filter(([_, u]) => !u.group)
-    .map(([id, u]) => ({ id, name: u.name }));
+    .map(([id, u]) => ({ id, name: u.name, birth: u.birth }));
 
   return (
     <div className="admin-group-management">
@@ -281,7 +281,7 @@ export default function AdminGroupManagement() {
       <ul>
         {unassigned.map((u) => (
           <li key={u.id}>
-            {u.name}
+            {u.name}({u.birth})
             <button onClick={() => deleteUser(u.id)} style={{ marginLeft: 10 }}>삭제</button>
           </li>
         ))}
@@ -311,7 +311,7 @@ export default function AdminGroupManagement() {
           Object.entries(userMap).forEach(([id, user]) => {
             if (user.group) {
               if (!grouped[user.group]) grouped[user.group] = [];
-              grouped[user.group].push({ id, name: user.name });
+              grouped[user.group].push({ id, name: user.name, birth: user.birth });
             }
           });
 
