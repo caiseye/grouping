@@ -210,7 +210,7 @@ export default function AdminGroupManagement() {
   return (
     <div className="admin-group-management">
       <div className="container">
-        <h2>Amex Grouping Admin Page</h2>
+        <h2>Amax Grouping Admin Page</h2>
 
         <label>모드 선택: </label>
         <select value={mode} onChange={(e) => setMode(e.target.value)}>

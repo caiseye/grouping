@@ -59,7 +59,7 @@ export default function GroupView() {
 
   return (
     <div className="container">
-      <h2 className="title">👋 {username} Amex 원우님 환영합니다</h2>
+      <h2 className="title">👋 {username} Amax 원우님 환영합니다</h2>
       <p className="timer">
         ⏳ Remain Time: <span>{remainingTime !== null ? formatTime(remainingTime) : "--:--"}</span>
       </p>
