@@ -97,7 +97,7 @@ export default function AdminGroupManagement() {
   };
 
   const regenerateGroups = () => {
-    const allUsers = Object.entries(userMap).map(([id, u]) => ({ id, name: u.name }));
+    const allUsers = Object.entries(userMap).map(([id, u]) => ({ id, name: u.name, birth: u.birth }));
     const shuffled = [...allUsers].sort(() => Math.random() - 0.5);
     const total = shuffled.length;
 
