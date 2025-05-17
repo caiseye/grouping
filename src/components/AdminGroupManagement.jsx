@@ -101,59 +101,67 @@ export default function AdminGroupManagement() {
         const shuffled = [...allUsers].sort(() => Math.random() - 0.5);
         const total = shuffled.length;
 
+        // 선착순 모드
         if (mode === "firstcome") {
-        const result = {};
-        let groupIndex = 0;
-
-        for (const user of shuffled) {
-            const groupName = `Group ${String.fromCharCode(65 + groupIndex)}`;
-            if (!result[groupName]) result[groupName] = [];
-            result[groupName].push(user);
-
-            if (result[groupName].length >= groupSize) {
-            groupIndex++;
-            if (groupIndex >= groupCount) groupIndex = 0;
+            const result = {};
+            for (let i = 0; i < groupCount; i++) {
+                const groupName = `Group ${String.fromCharCode(65 + i)}`;
+                result[groupName] = [];
             }
+
+            for (const user of shuffled) {
+                const candidateGroups = Object.entries(result)
+                    .filter(([_, members]) => members.length < groupSize)
+                    .map(([groupName]) => groupName);
+
+                if (candidateGroups.length === 0) break;
+
+                const randomIndex = Math.floor(Math.random() * candidateGroups.length);
+                const chosenGroup = candidateGroups[randomIndex];
+                result[chosenGroup].push(user);
+            }
+
+            setGeneratedGroups(result);
+            setStatus("ready");
+            return;
         }
 
-        setGeneratedGroups(result);
-        setStatus("ready");
-        return;
-        }
 
         // batch 모드
         let maxGroups = Math.ceil(total / groupSize);
         while (maxGroups > 0) {
-        const baseSize = Math.floor(total / maxGroups);
-        const extra = total % maxGroups;
+            const baseSize = Math.floor(total / maxGroups);
+            const extra = total % maxGroups;
 
-        if (baseSize === 1 && extra === 0) {
-            maxGroups--;
-            continue;
-        }
+            if (baseSize === 1 && extra === 0) {
+                maxGroups--;
+                continue;
+            }
 
-        const result = {};
-        let index = 0;
-        let remain = extra;
+            const result = {};
+            let index = 0;
+            let remain = extra;
 
-        for (let i = 0; i < maxGroups; i++) {
-            const size = baseSize + (remain > 0 ? 1 : 0);
-            const groupName = `Group ${String.fromCharCode(65 + i)}`;
-            result[groupName] = shuffled.slice(index, index + size);
-            index += size;
-            if (remain > 0) remain--;
-        }
+            for (let i = 0; i < maxGroups; i++) {
+                const size = baseSize + (remain > 0 ? 1 : 0);
+                const groupName = `Group ${String.fromCharCode(65 + i)}`;
+                result[groupName] = shuffled.slice(index, index + size);
+                index += size;
+                if (remain > 0) remain--;
+            }
 
-        setGeneratedGroups(result);
-        setStatus("ready");
-        return;
+            setGeneratedGroups(result);
+            setStatus("ready");
+            return;
         }
 
         alert("그룹을 생성할 수 없습니다. 설정을 확인해주세요.");
     };
 
-
-
+    // 최종배포
+    // 1. 그룹이름을 DB에 저장
+    // 2. 그룹별 유저를 DB에 저장
+    // 3. DB에 저장된 유저의 그룹을 업데이트
     const publish = async () => {
         const updates = {};
 
