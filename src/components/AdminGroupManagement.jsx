@@ -306,7 +306,7 @@ export default function AdminGroupManagement() {
                         <button onClick={handleExpectedRefresh} style={{ padding: "6px 12px", borderRadius: 6 }}>시간 재설정</button>
                     </>
                     )}
-                    <button onClick={publish} style={{ padding: "8px 12px", backgroundColor: "#007bff", color: "white", borderRadius: 6, border: "none" }}>최종 배포</button>
+                    <button onClick={publish} style={{ padding: "8px 12px", backgroundColor: "#920023", color: "white", borderRadius: 6, border: "none" }}>최종 배포</button>
                     <button onClick={resetDatabase} style={{ padding: "8px 12px", backgroundColor: "#dc3545", color: "white", borderRadius: 6, border: "none" }}>전체 DB 초기화</button>
                 </div>
             </div>
